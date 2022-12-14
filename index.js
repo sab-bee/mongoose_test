@@ -21,5 +21,5 @@ mongoose
 app.listen(port, () => console.log("listening to the app", port));
 app.get("/", async (req, res) => res.json({ hello: "test" }));
 
-app.use("/data", serviceHandler);
-app.use("/data", userHandler);
+app.use("/service", serviceHandler);
+app.use("/user", userHandler);
