@@ -19,7 +19,7 @@ mongoose
   .catch((err) => console.log(err));
 
 app.listen(port, () => console.log("listening to the app", port));
-app.get("/", async (req, res) => res.json({ verify: "test" }));
+app.get("/", async (req, res) => res.json({ servicecheck: "test" }));
 
 app.use("/service", serviceHandler);
 app.use("/user", userHandler);
