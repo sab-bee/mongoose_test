@@ -1,11 +1,13 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 const serviceHandler = require("./routeHandler/serviceHandler");
 const userHandler = require("./routeHandler/userHandler");
 
 const app = express();
 const port = process.env.PORT || 3000;
 app.use(express.json());
+app.use(cors())
 
 const url = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.9krdwpd.mongodb.net/uni_insurance?retryWrites=true&w=majority`;
 
@@ -19,7 +21,7 @@ mongoose
   .catch((err) => console.log(err));
 
 app.listen(port, () => console.log("listening to the app", port));
-app.get("/", async (req, res) => res.json({ usercheck: "test" }));
+app.get("/", async (req, res) => res.json({ cors: "test" }));
 
 app.use("/service", serviceHandler);
 app.use("/user", userHandler);
