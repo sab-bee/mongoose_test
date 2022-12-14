@@ -10,4 +10,8 @@ router.get("/", async (req, res) => {
   res.send(result);
 });
 
+router.get("/greet", async (req, res) => {
+  res.send({ hello: "greet" });
+});
+
 module.exports = router;
