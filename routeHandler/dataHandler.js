@@ -4,5 +4,7 @@ const mongoose = require("mongoose");
 const Data = new mongoose.model("Data");
 
 router.get("/", async (req, res) => {
-  console.log("hello");
+  res.send({ data: "data" });
 });
+
+module.exports = router;
