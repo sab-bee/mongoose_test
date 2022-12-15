@@ -4,7 +4,7 @@ const cors = require("cors");
 const serviceHandler = require("./routeHandler/serviceHandler");
 const userHandler = require("./routeHandler/userHandler");
 const subscriptionHandler = require("./routeHandler/subscriptionHandler");
-require("dotenv").config();
+// require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 3000;
 app.use(express.json());
@@ -14,7 +14,7 @@ const url = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster
 
 mongoose.set("strictQuery", true);
 mongoose
-  .connect("mongodb://127.0.0.1:27017/uni_insurance", {
+  .connect(url || "mongodb://127.0.0.1:27017/uni_insurance", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
