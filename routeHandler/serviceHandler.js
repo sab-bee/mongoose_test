@@ -30,8 +30,8 @@ router.post("/insurance/:email", async (req, res) => {
 router.post("/package", async (req, res) => {
   const bio = req.body;
   const policyData = await getPolicyData(bio._id);
-  getPackage(policyData, bio);
-  res.send({ hello: "hi" });
+  const pacakge = getPackage(policyData, bio);
+  res.send(pacakge);
 });
 
 async function getPolicyData(_id) {
@@ -43,7 +43,7 @@ function getPlan(info, userAge, coverage) {
   userAge = Number(userAge);
   coverage = Number(coverage);
 
-  const x = ((userAge * minPremium) / minAge) * (coverage / 10000000);
+  const x = ((userAge * minPremium) / minAge) * (coverage / 5000000);
 
   return {
     title,
@@ -54,19 +54,37 @@ function getPlan(info, userAge, coverage) {
 }
 
 function getPackage(policyData, bio) {
-  const name = policyData.title.split(" ")[0];
-  console.log(bio);
-  
+  const { minAge, minPremium } = policyData;
+  const serviceName = policyData.title.split(" ")[0];
+
   const coverage = Number(bio.coverage);
   const yearlyIncome = Number(bio.yearlyIncome);
   const monthlySpend = Number(bio.monthlySpend);
-  const { gender, habit, maritalStatus } = bio;
+  const userAge = Number(bio.userAge);
 
-  const { minAge, minPremium } = policyData;
-
-  if (name === "term") {
-    // const x = ((userAge * minPremium) / minAge) * (coverage / 10000000);
+  let { gender, habit, maritalStatus } = bio;
+  gender = gender == "male" ? 0.4 : 0.2;
+  maritalStatus = maritalStatus == "married" ? 0.35 : 0;
+  if (habit == "drink") {
+    habit = 0.35;
+  } else if (habit == "smoke") {
+    habit = 0.3;
+  } else {
+    habit = 0;
   }
+
+  let extra = gender + habit + maritalStatus;
+  if (extra < 1) extra = 1;
+
+  const x =
+    ((userAge * minPremium) / minAge) *
+    (coverage / 5000000) *
+    (yearlyIncome / 1000000) *
+    (monthlySpend / 30000) *
+    extra;
+  return {
+    premium: Math.ceil(x),
+  };
 }
 
 module.exports = router;
