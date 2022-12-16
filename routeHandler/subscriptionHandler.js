@@ -1,5 +1,5 @@
 const express = require("express");
-require("dotenv").config();
+// require("dotenv").config();
 const mongoose = require("mongoose");
 const subscriptionSchema = require("../Schema/subscriptionSchema");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
