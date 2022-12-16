@@ -49,6 +49,7 @@ function getPlan(info, userAge, coverage) {
     title,
     premium: x,
     policy,
+    userAge,
     _id,
   };
 }
@@ -84,6 +85,7 @@ function getPackage(policyData, bio) {
     extra;
   return {
     premium: Math.ceil(x),
+    _id: bio._id,
   };
 }
 
