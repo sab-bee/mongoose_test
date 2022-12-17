@@ -18,14 +18,13 @@ const Subscription = new mongoose.model("Subscription", subscriptionSchema);
 // });
 
 router.get("/payment/:premium", verifyUser, async (req, res) => {
-  // const premium = req.params.premium * 100;
-  // const paymentIntents = await stripe.paymentIntents.create({
-  //   amount: premium,
-  //   currency: "usd",
-  //   payment_method_types: ["card"],
-  // });
-  // res.send({ clientSecret: paymentIntents.client_secret });
-  res.send({ hello: "world" });
+  const premium = req.params.premium * 100;
+  const paymentIntents = await stripe.paymentIntents.create({
+    amount: premium,
+    currency: "usd",
+    payment_method_types: ["card"],
+  });
+  res.json({ clientSecret: paymentIntents.client_secret });
 });
 
 module.exports = router;
