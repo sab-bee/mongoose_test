@@ -9,7 +9,7 @@ const cors = require("cors");
 const Subscription = new mongoose.model("Subscription", subscriptionSchema);
 
 const corsOption = {
-  origin: "https://mongoosetest-production.up.railway.app",
+  origin: "*",
   credentials: true,
 };
 router.get(
