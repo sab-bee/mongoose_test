@@ -8,10 +8,7 @@ const verifyUser = require("../middleware/verifyUser");
 const router = express.Router();
 const Subscription = new mongoose.model("Subscription", subscriptionSchema);
 
-const option = {
-  origin: "http://localhost:5173",
-  optionsSuccessStatus: 200,
-};
+router.options('/payment/:premium', cors())
 router.get(
   "/payment/:premium",
   verifyUser,
