@@ -14,15 +14,18 @@ router.post("/:email", async (req, res) => {
   const email = req.params.email;
   const name = req.body.name;
 
-  const token = jwt.sign({ email }, process.env.SECRET_TOKEN, {
-    expiresIn: "1d",
-  });
-
+  let userId = "";
   const existedUser = await User.findOne({ email });
+  userId = existedUser._id;
+
   if (!existedUser) {
     const newUser = new User({ email, name, admin: false });
+    userId = newUser._id;
     await newUser.save();
   }
+  const token = jwt.sign({ email, userId }, process.env.SECRET_TOKEN, {
+    expiresIn: "1d",
+  });
   res.send({ token });
 });
 

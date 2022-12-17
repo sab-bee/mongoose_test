@@ -1,32 +1,22 @@
 const mongoose = require("mongoose");
 
 const subscriptionSchema = mongoose.Schema({
-  /*   gender: {
+  paid: {
+    type: Boolean,
+  },
+  transactionId: {
     type: String,
-    enum: ["male", "female"],
-
   },
-  coverage: {
-    type: Number,
-  },
-  yearlyIncome: {
-    type: Number,
-  },
-  monthlySpend: {
-    type: Number,
-  },
-  habit: {
+  email: {
     type: String,
-    enum: ["no", "drink", "smoke"],
   },
-  maritalStatus: {
+  pacakgeId: {
     type: String,
-    enum: ["married", "single"],
   },
   user: {
     type: mongoose.Types.ObjectId,
     ref: "User",
-  }, */
+  },
 });
 
 module.exports = subscriptionSchema;

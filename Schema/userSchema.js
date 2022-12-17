@@ -12,6 +12,12 @@ const userSchema = mongoose.Schema({
     type: Boolean,
     // required: true,
   },
+  subscriptions: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "Subscription",
+    },
+  ],
 });
 
 module.exports = userSchema;
