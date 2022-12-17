@@ -12,7 +12,7 @@ router.options('/payment/:premium', cors())
 router.get(
   "/payment/:premium",
   verifyUser,
-  cors(option),
+  cors(),
   async (req, res, next) => {
     const premium = req.params.premium * 100;
     const paymentIntents = await stripe.paymentIntents.create({
