@@ -4,7 +4,7 @@ const cors = require("cors");
 const serviceHandler = require("./routeHandler/serviceHandler");
 const userHandler = require("./routeHandler/userHandler");
 const subscriptionHandler = require("./routeHandler/subscriptionHandler");
-// require("dotenv").config();
+require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 3000;
 app.use(express.json());
@@ -22,7 +22,7 @@ mongoose
   .catch((err) => console.log(err));
 
 app.listen(port, () => console.log("listening to the app", port));
-app.get("/", async (req, res) => res.json({ cors: "fail 2" }));
+app.get("/", async (req, res) => res.json({ cors: "fail 3" }));
 
 app.use("/service", serviceHandler);
 app.use("/user", userHandler);
