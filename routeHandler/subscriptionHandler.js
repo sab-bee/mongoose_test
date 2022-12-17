@@ -16,6 +16,7 @@ router.use(function (req, res, next) {
   );
   next();
 });
+
 router.get("/payment/:premium", verifyUser, async (req, res) => {
   const premium = req.params.premium * 100;
   const paymentIntents = await stripe.paymentIntents.create({
