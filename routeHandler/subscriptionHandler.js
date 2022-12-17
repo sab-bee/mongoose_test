@@ -2,9 +2,7 @@ const express = require("express");
 require("dotenv").config();
 const mongoose = require("mongoose");
 const subscriptionSchema = require("../Schema/subscriptionSchema");
-const stripe = require("stripe")(
-  "sk_test_51L1Dp8J48oi4JQCJyhjq2TZg7vh5Bo4en4eGu6JO7YxVRIvG9WOgPtl97krpaRMvXnarS3Ugb8fwzqlkeruHvAwD00xI566VEz"
-);
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const verifyUser = require("../middleware/verifyUser");
 const router = express.Router();
 const Subscription = new mongoose.model("Subscription", subscriptionSchema);
@@ -21,16 +19,13 @@ const Subscription = new mongoose.model("Subscription", subscriptionSchema);
 
 router.get("/payment/:premium", verifyUser, async (req, res) => {
   const premium = req.params.premium * 100;
-  try {
-    const paymentIntents = await stripe.paymentIntents.create({
-      amount: premium,
-      currency: "usd",
-      payment_method_types: ["card"],
-    });
-    res.json({ clientSecret: paymentIntents.client_secret });
-  } catch (error) {
-    res.json(error);
-  }
+
+  const paymentIntents = await stripe.paymentIntents.create({
+    amount: premium,
+    currency: "usd",
+    payment_method_types: ["card"],
+  });
+  res.json({ clientSecret: paymentIntents.client_secret });
 });
 
 module.exports = router;
