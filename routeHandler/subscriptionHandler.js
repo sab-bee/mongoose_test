@@ -21,13 +21,13 @@ router.get("/payment/:premium", verifyUser, async (req, res) => {
   const premium = req.params.premium * 100;
   try {
     const paymentIntents = await stripe.paymentIntents.create({
-      amount: 14,
+      amount: premium,
       currency: "usd",
       payment_method_types: ["card"],
     });
     res.json({ clientSecret: paymentIntents.client_secret });
   } catch (error) {
-    res.json({ message: error.message });
+    res.json(error);
   }
 });
 
