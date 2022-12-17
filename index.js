@@ -22,7 +22,7 @@ mongoose
   .catch((err) => console.log(err));
 
 app.listen(port, () => console.log("listening to the app", port));
-app.get("/", async (req, res) => res.json({ cors: "trial 5" }));
+app.get("/", async (req, res) => res.json({ cors: "trial 6" }));
 
 app.use("/service", serviceHandler);
 app.use("/user", userHandler);
