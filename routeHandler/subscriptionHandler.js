@@ -8,7 +8,7 @@ const verifyUser = require("../middleware/verifyUser");
 const router = express.Router();
 const Subscription = new mongoose.model("Subscription", subscriptionSchema);
 
-router.get("/payment/:premium", cors, verifyUser, async (req, res) => {
+router.get("/payment/:premium", verifyUser, cors(), async (req, res) => {
   const premium = req.params.premium * 100;
   const paymentIntents = await stripe.paymentIntents.create({
     amount: premium,
