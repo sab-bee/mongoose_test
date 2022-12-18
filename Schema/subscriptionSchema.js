@@ -10,7 +10,7 @@ const subscriptionSchema = mongoose.Schema({
   email: {
     type: String,
   },
-  pacakgeId: {
+  packageId: {
     type: String,
   },
   user: {

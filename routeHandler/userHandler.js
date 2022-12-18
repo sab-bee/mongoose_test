@@ -16,12 +16,12 @@ router.post("/:email", async (req, res) => {
 
   let userId = "";
   const existedUser = await User.findOne({ email });
-  userId = existedUser._id;
-
   if (!existedUser) {
     const newUser = new User({ email, name, admin: false });
     userId = newUser._id;
     await newUser.save();
+  } else {
+    userId = existedUser._id;
   }
   const token = jwt.sign({ email, userId }, process.env.SECRET_TOKEN, {
     expiresIn: "1d",

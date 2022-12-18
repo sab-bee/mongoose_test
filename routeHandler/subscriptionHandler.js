@@ -28,14 +28,22 @@ router.post("/payment/save", verifyUser, async (req, res) => {
   });
 
   const result = await newSubscription.save();
-  await User.updateOne({
-    _id: userId
-  },{
-    $push: {
-      subscriptions: result._id
+  await User.updateOne(
+    {
+      _id: userId,
+    },
+    {
+      subscription: result._id,
     }
-  })
+  );
   res.json(result);
+});
+
+// get cant have triple slash value e:g -> /subscription/payment/paid
+router.get("/paid", verifyUser, async (req, res) => {
+  const { userId } = req.decoded;
+  const user = await User.findOne({ _id: userId }).populate("subscription");
+  res.json(user);
 });
 
 module.exports = router;
