@@ -50,7 +50,7 @@ router.get("/approved", verifyUser, async (req, res) => {
 
 router.get("/individual", verifyUser, async (req, res) => {
   const userId = req.decoded.userId;
-  const packages = await Subscription.find({ _id:userId });
+  const packages = await Subscription.find({ user: userId });
   res.send(packages);
 });
 
