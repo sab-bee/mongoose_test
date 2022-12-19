@@ -4,6 +4,9 @@ const subscriptionSchema = mongoose.Schema({
   paid: {
     type: Boolean,
   },
+  approved: {
+    type: Boolean,
+  },
   transactionId: {
     type: String,
   },
@@ -13,7 +16,22 @@ const subscriptionSchema = mongoose.Schema({
   packageId: {
     type: String,
   },
-  amount: {
+  premium: {
+    type: Number,
+  },
+  packageName: {
+    type: String,
+  },
+  userAge: {
+    type: Number,
+  },
+  coverage: {
+    type: Number,
+  },
+  yearlyIncome: {
+    type: Number,
+  },
+  monthlySpend: {
     type: Number,
   },
   user: {

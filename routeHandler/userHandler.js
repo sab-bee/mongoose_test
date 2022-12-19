@@ -29,4 +29,10 @@ router.post("/:email", async (req, res) => {
   res.send({ token });
 });
 
+router.get("/info/:email", async (req, res) => {
+  const email = req.params.email;
+  const user = await User.findOne({ email });
+  res.json(user);
+});
+
 module.exports = router;

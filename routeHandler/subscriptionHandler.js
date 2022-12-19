@@ -33,17 +33,42 @@ router.post("/payment/save", verifyUser, async (req, res) => {
       _id: userId,
     },
     {
-      subscription: result._id,
+      $push: {
+        subscription: result._id,
+      },
     }
   );
   res.json(result);
 });
 
 // get cant have triple slash value e:g -> /subscription/payment/paid
-router.get("/paid", verifyUser, async (req, res) => {
+router.get("/approved", verifyUser, async (req, res) => {
   const { userId } = req.decoded;
   const user = await User.findOne({ _id: userId }).populate("subscription");
   res.json(user);
 });
 
+router.get("/individual", verifyUser, async (req, res) => {
+  const userId = req.decoded.userId;
+  const packages = await Subscription.find({ _id:userId });
+  res.send(packages);
+});
+
+// task:  verify admin
+router.get("/all_pending", verifyUser, async (req, res) => {
+  const packages = await Subscription.find({ approved: false });
+  res.send(packages);
+});
+
+// task:  verify admin
+
+router.post("/approve/:id", verifyUser, async (req, res) => {
+  await Subscription.updateOne({ _id: req.params.id }, { approved: true });
+  res.json({ success: true });
+});
+
+router.post("/pay/:id", verifyUser, async (req, res) => {
+  await Subscription.updateOne({ _id: req.params.id }, req.body);
+  res.json({ success: true });
+});
 module.exports = router;

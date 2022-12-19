@@ -1,9 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const serviceSchema = require("../Schema/serviceSchema");
+const subscriptionSchema = require("../Schema/subscriptionSchema");
 const router = express.Router();
 const verifyUser = require("../middleware/verifyUser");
 const Service = new mongoose.model("Service", serviceSchema);
+const Subscription = new mongoose.model("Subscription", subscriptionSchema);
+
 let globalUserName = "";
 router.get("/", async (req, res) => {
   const result = await Service.find({});
@@ -27,11 +30,11 @@ router.post("/insurance/:email", async (req, res) => {
   res.send(result);
 });
 
-router.post("/package", async (req, res) => {
+router.post("/package", verifyUser, async (req, res) => {
   const bio = req.body;
   const policyData = await getPolicyData(bio._id);
-  const pacakge = getPackage(policyData, bio);
-  res.send(pacakge);
+  const package = await getPackage(policyData, bio, req.decoded.userId);
+  res.send(package);
 });
 
 async function getPolicyData(_id) {
@@ -54,8 +57,8 @@ function getPlan(info, userAge, coverage) {
   };
 }
 
-function getPackage(policyData, bio) {
-  const { minAge, minPremium } = policyData;
+async function getPackage(policyData, bio, userId) {
+  const { minAge, minPremium, _id } = policyData;
   const serviceName = policyData.title.split(" ")[0];
 
   const coverage = Number(bio.coverage);
@@ -83,10 +86,24 @@ function getPackage(policyData, bio) {
     (yearlyIncome / 1000000) *
     (monthlySpend / 30000) *
     extra;
-  return {
+
+  const newSubscription = new Subscription({
+    paid: false,
+    approved: false,
+    transactionId: "",
+    email: "",
+    packageId: _id,
     premium: Math.ceil(x),
-    _id: bio._id,
-  };
+    packageName: serviceName,
+    userAge,
+    coverage,
+    yearlyIncome,
+    monthlySpend,
+    user: userId,
+  });
+
+  const result = await newSubscription.save();
+  return result;
 }
 
 module.exports = router;
