@@ -13,6 +13,9 @@ const subscriptionSchema = mongoose.Schema({
   packageId: {
     type: String,
   },
+  amount: {
+    type: Number,
+  },
   user: {
     type: mongoose.Types.ObjectId,
     ref: "User",
